@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identificación QR</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #f4f4f4;
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 90%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        #qr-data {
+            font-size: 1rem;
+            color: #333;
+            padding: 20px;
+            background: #eef6fb;
+            border: 2px solid #006699;
+            border-radius: 10px;
+            margin-top: 20px;
+            width: 100%;
+            text-align: left;
+            display: none;
+        }
+
+        #qr-data .field {
+            margin-bottom: 10px;
+        }
+
+        #qr-data .label {
+            font-weight: bold;
+            color: #006699;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            border: 2px solid #006699;
+            margin-top: 20px;
+            display: none;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #006699;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004466;
+        }
+
+        .video-container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #006699;
+        }
+
+        .home-button:hover {
+            color: #004466;
+        }
+
+        .clear-button {
+            background-color: #ff4d4d;
+        }
+
+        .clear-button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón con el icono de la casa para regresar a index.html -->
+    <button class="home-button" onclick="window.location.href='index.html'">&#127968;</button>
+
+    <div class="container">
+        <div class="logo">
+            <img src="https://cardmx.com/Portals/0/Logo-cardmx.png?ver=2017-03-09-130008-383" alt="Logotipo">
+        </div>
+        <h1>Identificación QR</h1>
+        <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+        </div>
+        <p id="message">Presiona el botón para iniciar la cámara.</p>
+        <div id="qr-data">
+            <div id="qr-fields"></div>
+        </div>
+        <button id="toggle-camera">Iniciar Cámara</button>
+        <button id="clear-data" class="clear-button" style="display: none;">Limpiar</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr"></script>
+
+    <script>
+        const video = document.getElementById('video');
+        const qrDataElement = document.getElementById('qr-data');
+        const qrFieldsElement = document.getElementById('qr-fields');
+        const messageElement = document.getElementById('message');
+        const toggleCameraButton = document.getElementById('toggle-camera');
+        const clearDataButton = document.getElementById('clear-data');
+
+        let stream = null;
+        let isCameraActive = false;
+        let isScanning = false;
+
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: { ideal: 'environment' } }
+                });
+                video.srcObject = stream;
+                video.style.display = 'block';
+                isCameraActive = true;
+                messageElement.textContent = 'Escanea un código QR...';
+
+                video.addEventListener('loadedmetadata', () => {
+                    scanQRCode();
+                });
+            } catch (err) {
+                console.error('Error al acceder a la cámara:', err);
+                messageElement.textContent = 'No se pudo acceder a la cámara.';
+            }
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                video.style.display = 'none';
+                isCameraActive = false;
+                isScanning = false;
+                messageElement.textContent = 'Cámara detenida.';
+            }
+        }
+
+        toggleCameraButton.addEventListener('click', () => {
+            if (isCameraActive) {
+                stopCamera();
+                toggleCameraButton.textContent = 'Iniciar Cámara';
+            } else {
+                startCamera();
+                toggleCameraButton.textContent = 'Detener Cámara';
+            }
+        });
+
+        clearDataButton.addEventListener('click', () => {
+            qrDataElement.style.display = 'none';
+            qrFieldsElement.innerHTML = '';
+            clearDataButton.style.display = 'none';
+        });
+
+        function parseQRData(data) {
+            const lines = data.split(/\r?\n/);
+            const fields = lines.map(line => {
+                const [key, value] = line.split(/:(.+)/);
+                return { key, value };
+            });
+            return fields;
+        }
+
+        function displayQRData(fields) {
+            qrFieldsElement.innerHTML = '';
+            fields.forEach(({ key, value }) => {
+                if (key && value) {
+                    const fieldElement = document.createElement('div');
+                    fieldElement.classList.add('field');
+                    fieldElement.innerHTML = `<span class="label">${key}:</span> ${value}`;
+                    qrFieldsElement.appendChild(fieldElement);
+                }
+            });
+        }
+
+        function scanQRCode() {
+            if (!isCameraActive || isScanning) return;
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+            if (code) {
+                const fields = parseQRData(code.data);
+                displayQRData(fields);
+                qrDataElement.style.display = 'block';
+                clearDataButton.style.display = 'inline-block';
+                messageElement.textContent = '¡Código QR detectado!';
+
+                isScanning = true;
+                setTimeout(() => {
+                    isScanning = false;
+                }, 1500);
+            }
+
+            requestAnimationFrame(scanQRCode);
+        }
+    </script>
+</body>
+</html>
