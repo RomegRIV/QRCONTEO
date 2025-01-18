@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://cardmx.com/Portals/0/Logo-cardmx.png?ver=2017-03-09-130008-383">
     <title>Interfaz de Usuario</title>
     <style>
         /* Estilos generales */
@@ -13,23 +14,23 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #e0e0e0;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #007BFF, #FFFFFF);
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
         .container {
-            width: 300px;
-            background-color: #bfbfbf;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
-            padding: 20px;
+            padding: 30px 20px;
             position: relative;
         }
 
         /* Logotipo */
         .logo img {
-            width: 100px;
+            width: 120px;
             margin-bottom: 20px;
         }
 
@@ -37,21 +38,30 @@
         .button {
             width: 90%;
             padding: 15px 0;
-            margin: 10px auto;
-            background-color: #808080;
+            margin: 15px auto;
+            background-color: #f37a20;
             color: white;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             text-align: center;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .button:hover {
-            background-color: #666666;
+            background-color:  #f9b59e;
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .button i {
+            font-size: 18px;
         }
 
         /* Botón "?" */
@@ -59,20 +69,20 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            width: 30px;
-            height: 30px;
-            background-color: #808080;
+            width: 40px;
+            height: 40px;
+            background-color:  #f37a20;
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 50%;
+            font-size: 20px;
             color: white;
             cursor: pointer;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s ease;
         }
 
         .info-button:hover {
-            background-color: #666666;
+            background-color:  #f37a20;
         }
 
         /* Popup */
@@ -83,16 +93,18 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            padding: 30px;
             text-align: center;
             z-index: 1000;
+            width: 90%;
+            max-width: 400px;
         }
 
         .popup h3 {
             margin: 0;
-            font-size: 16px;
+            font-size: 18px;
             color: #333;
         }
 
@@ -100,21 +112,23 @@
             margin-top: 10px;
             font-size: 14px;
             color: #555;
+            line-height: 1.5;
         }
 
         .popup button {
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #808080;
+            background-color:  #f37a20;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 14px;
+            transition: background-color 0.3s ease;
         }
 
         .popup button:hover {
-            background-color: #666666;
+            background-color: #894c24;
         }
 
         /* Fondo del overlay */
@@ -139,9 +153,8 @@
         <!-- Botón de información -->
         <button class="info-button" onclick="showPopup()">?</button>
         <!-- Botones principales -->
-       <button class="button" onclick="window.location.href='qr.html'">CONTEO DE PERSONAL</button>
-       <button class="button" onclick="window.location.href='qr2.html'">IDENTIFICADOR QR</button>
-
+        <button class="button" onclick="window.location.href='qr.html'">CONTEO DE PERSONAL</button>
+        <button class="button" onclick="window.location.href='qr2.html'">IDENTIFICADOR QR</button>
     </div>
 
     <!-- Popup -->
@@ -159,11 +172,14 @@
             document.getElementById('overlay').style.display = 'block';
         }
 
-        // Cerrar popu
+        // Cerrar popup
         function closePopup() {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
     </script>
+
+    <!-- Iconos FontAwesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
