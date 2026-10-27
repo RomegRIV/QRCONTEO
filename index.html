@@ -1,185 +1,356 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="https://cardmx.com/Portals/0/Logo-cardmx.png?ver=2017-03-09-130008-383">
-    <title>Interfaz de Usuario</title>
-    <style>
-        /* Estilos generales */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #007BFF, #FFFFFF);
-            font-family: 'Roboto', Arial, sans-serif;
-        }
-
-        .container {
-            width: 350px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            padding: 30px 20px;
-            position: relative;
-        }
-
-        /* Logotipo */
-        .logo img {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        /* Botones */
-        .button {
-            width: 90%;
-            padding: 15px 0;
-            margin: 15px auto;
-            background-color: #f37a20;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .button:hover {
-            background-color:  #f9b59e;
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .button i {
-            font-size: 18px;
-        }
-
-        /* Botón "?" */
-        .info-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 40px;
-            height: 40px;
-            background-color:  #f37a20;
-            border: none;
-            border-radius: 50%;
-            font-size: 20px;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-
-        .info-button:hover {
-            background-color:  #f37a20;
-        }
-
-        /* Popup */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            text-align: center;
-            z-index: 1000;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .popup h3 {
-            margin: 0;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .popup p {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .popup button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color:  #f37a20;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .popup button:hover {
-            background-color: #894c24;
-        }
-
-        /* Fondo del overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conoce CONALEP Tlalpan Uno: comunidad, carreras, actividades y orgullo CONALEP.">
+  <title>CONALEP Tlalpan Uno | Orgullo que transforma</title>
+  <style>
+    :root{
+      --green:#008b52; --green-dark:#006b40; --green-light:#e7f7ef;
+      --red:#d92732; --ink:#14231d; --muted:#64736b; --paper:#f7faf8;
+      --white:#fff; --line:#e3ece7; --shadow:0 18px 50px rgba(10,50,32,.12);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    .topline{height:5px;background:linear-gradient(90deg,var(--green) 0 68%,var(--red) 68% 100%)}
+    header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(227,236,231,.9)}
+    .nav{max-width:1180px;margin:auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .brand img{width:52px;height:52px;object-fit:contain}
+    .brand-mark{display:none;width:52px;height:52px;border-radius:15px;background:var(--green);color:#fff;align-items:center;justify-content:center;font-weight:900;letter-spacing:-2px}
+    .brand strong{display:block;font-size:15px;line-height:1.2;letter-spacing:.02em}
+    .brand small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+    nav{display:flex;align-items:center;gap:23px;font-size:13px;font-weight:700}
+    nav a{color:#34483e;transition:color .2s} nav a:hover{color:var(--green)}
+    .nav-cta,.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 18px;font-weight:800;font-size:13px}
+    .nav-cta,.btn-primary{background:var(--green);color:white;box-shadow:0 8px 22px rgba(0,139,82,.2)}
+    .nav-cta:hover,.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+    .menu-toggle{display:none;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px;font-size:20px}
+    .hero{position:relative;overflow:hidden;background:#082e20;color:#fff;isolation:isolate}
+    .hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 20%,rgba(0,185,105,.32),transparent 30%),linear-gradient(110deg,#082d20 0%,#06472f 60%,#087448 100%);z-index:-2}
+    .hero:after{content:"";position:absolute;width:480px;height:480px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-100px;top:-170px;box-shadow:0 0 0 45px rgba(255,255,255,.025),0 0 0 95px rgba(255,255,255,.02);z-index:-1}
+    .hero-inner{max-width:1180px;margin:auto;padding:76px 22px 72px;display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.08);padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    .dot{width:7px;height:7px;background:#6ee7a8;border-radius:50%;box-shadow:0 0 0 5px rgba(110,231,168,.12)}
+    h1{font-size:clamp(42px,5vw,68px);line-height:1.03;letter-spacing:-.055em;margin:22px 0 20px;max-width:650px}
+    h1 span{color:#76e3aa}
+    .hero p{color:#d4e9dd;font-size:16px;max-width:540px;margin:0 0 28px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{transition:.2s}
+    .btn-light{background:#fff;color:#123a29}
+    .btn-outline{border:1px solid rgba(255,255,255,.4);color:white}
+    .hero-note{display:flex;align-items:center;gap:12px;margin-top:30px;color:#c5dfd1;font-size:12px}
+    .hero-note b{color:#fff}
+    .hero-note .line{width:35px;height:1px;background:#77dca7}
+    .video-shell{position:relative;padding:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);border-radius:26px;box-shadow:0 28px 70px rgba(0,0,0,.28);transform:rotate(1deg)}
+    .video-shell video{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#061b13;border-radius:18px}
+    .video-label{display:flex;justify-content:space-between;align-items:center;padding:13px 6px 4px;font-size:12px;color:#e4f4eb}
+    .video-label span:last-child{color:#9fe9bf}
+    .section{max-width:1180px;margin:auto;padding:76px 22px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:30px}
+    .kicker{color:var(--green);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.16em}
+    h2{font-size:clamp(30px,3.6vw,43px);line-height:1.1;letter-spacing:-.04em;margin:9px 0 0}
+    .section-head p{max-width:430px;color:var(--muted);margin:0;font-size:14px}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 8px 28px rgba(10,50,32,.035);transition:transform .22s,box-shadow .22s}
+    .card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+    .card-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:var(--green-light);font-size:24px;margin-bottom:18px}
+    .card:nth-child(2) .card-icon{background:#fff0f0}.card:nth-child(3) .card-icon{background:#fff5df}
+    .card h3{margin:0 0 8px;font-size:19px;letter-spacing:-.02em}
+    .card p{color:var(--muted);font-size:13px;margin:0 0 18px}
+    .card a{font-size:12px;font-weight:900;color:var(--green)}
+    .band{background:#eaf5ef;border-top:1px solid #dcece3;border-bottom:1px solid #dcece3}
+    .band-inner{max-width:1180px;margin:auto;padding:32px 22px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+    .band strong{font-size:clamp(20px,2.4vw,28px);letter-spacing:-.03em}
+    .band p{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .values{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .value{padding:22px;border-radius:18px;background:white;border:1px solid var(--line)}
+    .value b{display:block;font-size:15px;margin-bottom:5px}
+    .value span{font-size:12px;color:var(--muted)}
+    .value .number{font-size:12px;color:var(--green);font-weight:900;letter-spacing:.1em;margin-bottom:14px}
+    .cta{background:linear-gradient(120deg,#073d29,#08784b);color:white;border-radius:26px;padding:38px;display:flex;align-items:center;justify-content:space-between;gap:25px;position:relative;overflow:hidden}
+    .cta:after{content:"";position:absolute;width:260px;height:260px;border:1px solid rgba(255,255,255,.15);border-radius:50%;right:15%;top:-180px;box-shadow:0 0 0 35px rgba(255,255,255,.03),0 0 0 70px rgba(255,255,255,.025)}
+    .cta h2{font-size:clamp(26px,3vw,36px);max-width:600px}
+    .cta p{color:#d0e9dc;margin:10px 0 0;font-size:13px}
+    .cta .btn{white-space:nowrap;position:relative;z-index:1}
+    footer{background:#09271b;color:#c5d8cd;padding:30px 22px}
+    .footer-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center;font-size:12px}
+    .footer-brand{color:white;font-weight:900}
+    .footer-links{display:flex;gap:17px;flex-wrap:wrap}
+    .footer-links a:hover{color:#79e4aa}
+    .notice{font-size:11px;color:#a7c2b3;margin-top:7px}
+    .internet-panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+    .internet-panel h3{margin:0 0 6px;font-size:21px}
+    .internet-panel p{margin:0;color:var(--muted);font-size:13px}
+    .internet-status{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;margin-top:13px}
+    .internet-status .dot{background:#9aa9a0;box-shadow:none}
+    .internet-status.online .dot{background:#13a463;box-shadow:0 0 0 5px rgba(19,164,99,.12)}
+    .internet-status.offline .dot{background:#d92732;box-shadow:0 0 0 5px rgba(217,39,50,.10)}
+    .speed-results{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px}
+    .speed-metric{min-width:90px;background:var(--paper);border-radius:13px;padding:12px 14px}
+    .speed-metric strong{display:block;font-size:22px;line-height:1.2;color:var(--green)}
+    .speed-metric span{font-size:11px;color:var(--muted)}
+    .internet-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+    .internet-actions button,.internet-actions a{border:0;cursor:pointer}
+    .btn-secondary{background:#e7f7ef;color:#006b40}
+    .speed-note{font-size:11px;color:var(--muted);margin-top:12px}
+    @media(max-width:850px){
+      nav{gap:12px} nav a:not(.nav-cta){display:none}
+      .hero-inner{grid-template-columns:1fr;gap:36px;padding-top:56px}
+      .video-shell{max-width:650px;transform:none}
+      .cards{grid-template-columns:1fr 1fr}
+      .values{grid-template-columns:1fr 1fr}
+      .section-head{align-items:start;flex-direction:column}
+    }
+    @media(max-width:560px){
+      .nav{padding:10px 16px}.brand img,.brand-mark{width:44px;height:44px}
+      .brand strong{font-size:13px}.brand small{font-size:10px}
+      nav{display:none;position:absolute;top:68px;left:12px;right:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+      nav.open{display:flex;flex-direction:column;align-items:stretch}
+      nav a:not(.nav-cta){display:block;padding:7px}
+      .menu-toggle{display:block}
+      .hero-inner{padding:45px 17px 50px}
+      h1{font-size:43px}
+      .hero p{font-size:14px}
+      .section{padding:55px 17px}
+      .cards{grid-template-columns:1fr}
+      .values{grid-template-columns:1fr 1fr}
+      .band-inner{align-items:flex-start;flex-direction:column;padding:28px 17px}
+      .cta{padding:27px 22px;align-items:flex-start;flex-direction:column}
+      .footer-inner{align-items:flex-start;flex-direction:column}
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Logotipo -->
-        <div class="logo">
-            <img src="https://cardmx.com/Portals/0/Logo-cardmx.png?ver=2017-03-09-130008-383" alt="Logo">
+  <div class="topline"></div>
+  <header>
+    <div class="nav">
+      <a class="brand" href="#inicio" aria-label="Inicio CONALEP Tlalpan Uno">
+        <img src="logo.png" alt="Logotipo de CONALEP Tlalpan Uno" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="brand-mark">C1</span>
+        <span><strong>CONALEP TLALPAN UNO</strong><small>Educación técnica · Orgullo que transforma</small></span>
+      </a>
+      <nav id="mainNav">
+        <a href="#plantel">El plantel</a>
+        <a href="#carreras">Carreras</a>
+        <a href="#comunidad">Comunidad</a>
+        <a href="#internet">Internet</a>
+        <a class="nav-cta" href="#contacto">Conócenos ↗</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Orgullosamente CONALEP</div>
+          <h1>El talento se convierte en <span>futuro.</span></h1>
+          <p>Un espacio para aprender haciendo, desarrollar habilidades y construir nuevas oportunidades. Descubre la energía y el orgullo de nuestra comunidad en CONALEP Tlalpan Uno.</p>
+          <div class="hero-actions">
+            <a class="btn btn-light" href="#carreras">Explorar carreras <span>↗</span></a>
+            <a class="btn btn-outline" href="#plantel">Conocer el plantel</a>
+          </div>
+          <div class="hero-note"><span class="line"></span><span><b>Aprender · Crear · Transformar</b><br>Una comunidad con metas y talento.</span></div>
         </div>
-        <!-- Botón de información -->
-        <button class="info-button" onclick="showPopup()">?</button>
-        <!-- Botones principales -->
-        <button class="button" onclick="window.location.href='qr.html'">CONTEO DE PERSONAL</button>
-        <button class="button" onclick="window.location.href='qr2.html'">IDENTIFICADOR QR</button>
+        <div class="video-shell">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/ewPLwJSn6Do"
+            title="Video de CONALEP Tlalpan Uno"
+            style="display:block;width:100%;aspect-ratio:16/9;border:0;background:#061b13;border-radius:18px"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+          <div class="video-label"><span>Así se vive CONALEP Tlalpan Uno</span><a href="https://youtu.be/ewPLwJSn6Do" target="_blank" rel="noopener noreferrer" style="color:#9fe9bf">▶ Ver en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="plantel">
+      <div class="section-head">
+        <div><div class="kicker">Conoce nuestra comunidad</div><h2>Mucho más que una escuela.</h2></div>
+        <p>Aprender también es colaborar, descubrir lo que nos apasiona y llevar las ideas a la práctica.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon">🎓</div>
+          <h3>Formación técnica</h3>
+          <p>Aprendizaje orientado a desarrollar conocimientos, habilidades prácticas y preparación para nuevos retos.</p>
+          <a href="#carreras">DESCUBRIR MÁS ↗</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🧩</div>
+          <h3>Ideas que se vuelven proyectos</h3>
+          <p>Actividades, prácticas y retos donde la creatividad y el trabajo en equipo hacen la diferencia.</p>
+          <a href="#comunidad">VER NUESTRA ESENCIA ↗</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🤝</div>
+          <h3>Orgullo de pertenecer</h3>
+          <p>Una comunidad que crece con respeto, compromiso, participación y ganas de superarse.</p>
+          <a href="#contacto">ACÉRCATE ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <div class="band">
+      <div class="band-inner">
+        <div><strong>Tu talento tiene un lugar aquí.</strong><p>Aprende, participa y deja huella en tu comunidad.</p></div>
+        <a class="btn btn-primary" href="#contacto">Conoce CONALEP Tlalpan Uno ↗</a>
+      </div>
     </div>
 
-    <!-- Popup -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup" id="popup">
-        <h3>Información</h3>
-        <p>Echo por: Manuel Augusto Rojas Mejía<br>En: Enero de 2025<br>Durante su periodo como residente para obtener el título de Ingeniero.</p>
-        <button onclick="closePopup()">Cerrar</button>
+    <section class="section" id="carreras">
+      <div class="section-head">
+        <div><div class="kicker">Aprende haciendo</div><h2>Áreas para desarrollar tu talento.</h2></div>
+        <p>Una mirada a algunas áreas formativas que pueden inspirar proyectos, prácticas y experiencias escolares.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon">💻</div>
+          <h3>Informática</h3>
+          <p>Tecnología, programación, solución de problemas y creación de herramientas digitales.</p>
+          <a href="#contacto">EXPLORAR EL ÁREA ↗</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🍽️</div>
+          <h3>Alimentos y Bebidas</h3>
+          <p>Creatividad, preparación, servicio y trabajo coordinado en experiencias gastronómicas.</p>
+          <a href="#contacto">EXPLORAR EL ÁREA ↗</a>
+        </article>
+        <article class="card">
+          <div class="card-icon">🚀</div>
+          <h3>Proyectos y habilidades</h3>
+          <p>Trabajo en equipo, comunicación, innovación y aprendizaje aplicado a situaciones reales.</p>
+          <a href="#comunidad">VER ACTIVIDADES ↗</a>
+        </article>
+      </div>
+      <p class="notice">Nota: confirma y ajusta las carreras y áreas que se imparten actualmente en el plantel antes de publicar la página.</p>
+    </section>
+
+    <section class="section" id="internet">
+      <div class="section-head">
+        <div><div class="kicker">Conectividad</div><h2>¿Tenemos internet?</h2></div>
+        <p>Comprueba la conexión desde este dispositivo y abre una prueba de velocidad para conocer el rendimiento de la red.</p>
+      </div>
+      <div class="internet-panel">
+        <div>
+          <h3>Estado de conexión</h3>
+          <p>La página comprueba si el navegador tiene acceso a internet.</p>
+          <div class="internet-status" id="internetStatus" role="status" aria-live="polite"><span class="dot"></span><span id="internetStatusText">Comprobando conexión…</span></div>
+          <div class="speed-results">
+            <div class="speed-metric"><strong id="latencyValue">—</strong><span>Latencia de prueba (ms)</span></div>
+            <div class="speed-metric"><strong id="speedValue">—</strong><span>Velocidad de descarga</span></div>
+          </div>
+          <div class="speed-note" id="speedNote">La latencia es una comprobación sencilla; para medir Mbps con precisión, usa la prueba externa.</div>
+        </div>
+        <div class="internet-actions">
+          <button class="btn btn-primary" id="checkInternet" type="button">Comprobar internet ↻</button>
+          <a class="btn btn-secondary" href="https://fast.com/" target="_blank" rel="noopener noreferrer">Medir velocidad ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comunidad">
+      <div class="section-head">
+        <div><div class="kicker">Nuestra esencia</div><h2>Crecer también es compartir.</h2></div>
+        <p>La experiencia escolar se construye con pequeños esfuerzos diarios y con una comunidad que suma.</p>
+      </div>
+      <div class="values">
+        <div class="value"><div class="number">01 /</div><b>Respeto</b><span>Escuchar, dialogar y reconocer a los demás.</span></div>
+        <div class="value"><div class="number">02 /</div><b>Creatividad</b><span>Imaginar posibilidades y proponer soluciones.</span></div>
+        <div class="value"><div class="number">03 /</div><b>Colaboración</b><span>Trabajar en equipo y aprender juntos.</span></div>
+        <div class="value"><div class="number">04 /</div><b>Compromiso</b><span>Dar lo mejor y avanzar con responsabilidad.</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="contacto" style="padding-top:0">
+      <div class="cta">
+        <div><div class="kicker" style="color:#8ce6b3">Este es nuestro orgullo</div><h2>El futuro comienza con lo que haces hoy.</h2><p>CONALEP Tlalpan Uno · Aprende. Crea. Transforma.</p></div>
+        <a class="btn btn-light" href="#inicio">Volver al inicio ↑</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div><div class="footer-brand">CONALEP TLALPAN UNO</div><div class="notice">Orgullosamente CONALEP · Sitio informativo escolar</div></div>
+      <div class="footer-links"><a href="#plantel">Plantel</a><a href="#carreras">Carreras</a><a href="#comunidad">Comunidad</a><a href="#inicio">Inicio ↑</a></div>
+      <div>© <span id="year"></span> CONALEP Tlalpan Uno</div>
     </div>
+  </footer>
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const nav = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.textContent = open ? '✕' : '☰';
+    });
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = '☰';
+    }));
+    const internetStatus = document.getElementById('internetStatus');
+    const internetStatusText = document.getElementById('internetStatusText');
+    const latencyValue = document.getElementById('latencyValue');
+    const speedValue = document.getElementById('speedValue');
+    const speedNote = document.getElementById('speedNote');
+    const checkInternetButton = document.getElementById('checkInternet');
 
-    <script>
-        // Mostrar popup
-        function showPopup() {
-            document.getElementById('popup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
-
-        // Cerrar popup
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
-    </script>
-
-    <!-- Iconos FontAwesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    async function checkInternet() {
+      checkInternetButton.disabled = true;
+      checkInternetButton.textContent = 'Comprobando…';
+      internetStatus.classList.remove('online', 'offline');
+      internetStatusText.textContent = 'Comprobando conexión…';
+      latencyValue.textContent = '—';
+      speedValue.textContent = 'Abriendo prueba externa';
+      const started = performance.now();
+      try {
+        // Fetch a tiny response without using the browser cache.
+        const response = await fetch('https://www.google.com/generate_204?ts=' + Date.now(), {
+          mode: 'no-cors',
+          cache: 'no-store'
+        });
+        const elapsed = Math.round(performance.now() - started);
+        internetStatus.classList.add('online');
+        internetStatusText.textContent = navigator.onLine
+          ? 'Conexión a internet detectada'
+          : 'El navegador indica que no hay conexión';
+        latencyValue.textContent = elapsed;
+        speedValue.textContent = 'No medida';
+        speedNote.textContent = 'La prueba de latencia es aproximada. Pulsa “Medir velocidad” para obtener Mbps en FAST.com.';
+      } catch (error) {
+        internetStatus.classList.add('offline');
+        internetStatusText.textContent = 'No se pudo comprobar el acceso a internet';
+        latencyValue.textContent = '—';
+        speedValue.textContent = '—';
+        speedNote.textContent = 'Puede haber un bloqueo de red o una conexión intermitente. Intenta de nuevo.';
+      } finally {
+        checkInternetButton.disabled = false;
+        checkInternetButton.textContent = 'Comprobar internet ↻';
+      }
+    }
+    checkInternetButton.addEventListener('click', checkInternet);
+    window.addEventListener('online', () => {
+      internetStatus.classList.remove('offline');
+      internetStatus.classList.add('online');
+      internetStatusText.textContent = 'El navegador indica que estás conectado';
+    });
+    window.addEventListener('offline', () => {
+      internetStatus.classList.remove('online');
+      internetStatus.classList.add('offline');
+      internetStatusText.textContent = 'El navegador indica que no hay conexión';
+    });
+    checkInternet();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
